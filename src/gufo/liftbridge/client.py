@@ -784,13 +784,13 @@ class LiftbridgeClient(object):
                     raise ErrorNotFound(str(e)) from e  # Reraise
 
     async def publish_bulk(
-        self, iter_req: Iterator[PublishRequest], wait: bool = True
+        self, iter_req: Iterable[PublishRequest], wait: bool = True
     ) -> AsyncIterable[Ack]:
         """
         Bulk publishing from iterator.
 
         Args:
-            iter_req: Iterator, yielding PublishRequest.
+            iter_req: Iterable of PublishRequest.
             wait: Wait for all acks if set to `True`.
         """
 

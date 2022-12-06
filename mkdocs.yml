@@ -1,0 +1,66 @@
+site_name: Gufo Liftbridge
+site_description: Gufo Liftbridge Documentation
+site_author: Gufo Labs
+site_url: "https://docs.gufolabs.com/gufo_liftbridge/"
+copyright: "&copy; 2022, Gufo Labs"
+site_dir: dist/docs/
+repo_url: https://github.com/gufolabs/gufo_liftbridge/
+repo_name: GitHub
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Reference: reference/
+  - Examples:
+      - Overview: examples/index.md
+      - Publishing: examples/publish.md
+      - Bulk Publishing: examples/bulk.md
+      - Transparent Compression: examples/compression.md
+      - Subscribe: examples/subscribe.md
+      - Create Stream: examples/create.md
+      - Delete Stream: examples/delete.md
+      # Cursors
+  - Developers' Guide:
+      - Developer's Environment: environment.md
+      - Building and Testing: testing.md
+      - Common Tasks: devcommon.md
+      - Code Quality: codequality.md
+      - Code Base: codebase.md
+      - Contributing Guide: CONTRIBUTING.md
+      - Code of Conduct: CODE_OF_CONDUCT.md
+  - FAQ: faq.md
+  - Changelog: CHANGELOG.md
+  - License: LICENSE.md
+  # Users
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/logo.png
+watch:
+  - docs/
+  - src/gufo/
+  - examples/
+plugins:
+  - search
+  - gen-files:
+      scripts:
+        - docs/gen_doc_stubs.py
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_source: false
+            show_submodules: false
+markdown_extensions:
+  - toc:
+      permalink: True
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: True
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      clickable_checkbox: true
