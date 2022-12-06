@@ -11,6 +11,7 @@ on:
       - "src/**"
       - "tests/**"
       - "setup.cfg"
+      - "Dockerfile"
     branches:
       - master
   pull_request:
