@@ -519,3 +519,16 @@ def test_cursor():
     prep_ready = asyncio.Event()
     cur_ready = asyncio.Event()
     asyncio.run(asyncio.wait_for(run(), 10.0))
+
+
+@pytest.mark.parametrize("name,exp", [("localhost", "127.0.0.1")])
+def test_resolve(name: str, exp: str, liftbridge):
+    async def inner():
+        async with LiftbridgeClient([BROKER]) as client:
+            return await client._resolve(name, cache)
+
+    cache = {}
+    r = asyncio.run(inner())
+    assert r == exp
+    assert name in cache
+    assert cache[name][0] == exp
