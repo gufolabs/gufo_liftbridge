@@ -63,8 +63,8 @@ jobs:
 
       - name: Install Liftbridge
         run: >
-          curl -L -o /tmp/liftbridge.tgz https://github.com/liftbridge-io/liftbridge/releases/download/v1.9.0/liftbridge_1.9.0_linux_amd64.tar.gz\
-          && (cd /tmp && tar zxf /tmp/liftbridge.tgz liftbridge && mv liftbridge /usr/local/bin)\
+          curl -L -o /tmp/liftbridge.tgz https://github.com/liftbridge-io/liftbridge/releases/download/v1.9.0/liftbridge_1.9.0_linux_amd64.tar.gz
+          && (cd /tmp && tar zxf /tmp/liftbridge.tgz liftbridge && mv liftbridge /usr/local/bin)
           && rm /tmp/liftbridge.tgz
 
       - name: Run Tests
