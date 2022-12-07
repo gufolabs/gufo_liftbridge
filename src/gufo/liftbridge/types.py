@@ -108,3 +108,27 @@ class Metadata(object):
 
     brokers: List[Broker]
     metadata: List[StreamMetadata]
+
+
+@dataclass
+class Message(object):
+    """
+    Liftbridge message.
+
+    Args:
+        value: Message body.
+        subject: Message stream.
+        offset: Message offset.
+        timestamp: Message timestamp in UNIX format.
+        key: Message key.
+        partition: stream partition.
+        headers: Additional message headers.
+    """
+
+    value: bytes
+    subject: str
+    offset: int
+    timestamp: int
+    key: bytes
+    partition: int
+    headers: Dict[str, bytes]

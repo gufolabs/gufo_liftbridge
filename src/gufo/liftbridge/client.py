@@ -21,7 +21,6 @@ from typing import (
     List,
     AsyncIterable,
     Tuple,
-    Iterator,
     Iterable,
 )
 from types import TracebackType
@@ -57,7 +56,6 @@ from .error import (
     ErrorMessageSizeExceeded,
     ErrorNoMetadataLeader,
 )
-from .message import Message
 from .types import (
     AckPolicy,
     Broker,
@@ -65,6 +63,7 @@ from .types import (
     StreamMetadata,
     Metadata,
     StartPosition,
+    Message,
 )
 from .utils import is_ipv4
 
@@ -896,10 +895,10 @@ class LiftbridgeClient(object):
         if allow_isr:
             req.readISRReplica = True
         if start_offset is not None:
-            req.startPosition = StartPosition.OFFSET
+            req.startPosition = StartPosition.OFFSET.value
             req.startOffset = start_offset
         elif start_timestamp is not None:
-            req.startPosition = StartPosition.TIMESTAMP
+            req.startPosition = StartPosition.TIMESTAMP.value
             req.startTimestamp = int(start_timestamp * 1_000_000_000.0)
         elif start_position == StartPosition.RESUME:
             if not cursor_id:
@@ -907,7 +906,7 @@ class LiftbridgeClient(object):
                     "cursor_id must be set for StartPosition.RESUME"
                 )
             logger.debug("Getting stored offset for stream '%s'", stream)
-            req.startPosition = StartPosition.OFFSET
+            req.startPosition = StartPosition.OFFSET.value
             logger.debug("Resuming from offset %d", req.startOffset)
         else:
             req.startPosition = start_position
@@ -934,7 +933,7 @@ class LiftbridgeClient(object):
                 await self._sleep_on_error()
                 if not to_restore_position and last_offset is not None:
                     # Continue from last seen position
-                    req.startPosition = StartPosition.OFFSET
+                    req.startPosition = StartPosition.OFFSET.value
                     req.startOffset = last_offset + 1
                     to_restore_position = False
             except LiftbridgeError as e:
@@ -942,7 +941,7 @@ class LiftbridgeClient(object):
                 logger.info("Try to continue from last offset")
                 if not to_restore_position and last_offset is not None:
                     # Continue from last seen position
-                    req.startPosition = StartPosition.OFFSET
+                    req.startPosition = StartPosition.OFFSET.value
                     req.startOffset = last_offset + 1
                     to_restore_position = False
                     to_recover = True
