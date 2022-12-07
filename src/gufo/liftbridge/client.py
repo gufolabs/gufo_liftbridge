@@ -29,8 +29,8 @@ import asyncio
 import socket
 
 # Third-party modules
-from grpc.aio import insecure_channel, AioRpcError
-from grpc import StatusCode, ChannelConnectivity
+from grpc.aio import insecure_channel, AioRpcError  # type:ignore[import]
+from grpc import StatusCode, ChannelConnectivity  # type:ignore[import]
 
 # Gufo Liftbridge modules
 from .api_pb2_grpc import APIStub
@@ -909,7 +909,7 @@ class LiftbridgeClient(object):
             req.startPosition = StartPosition.OFFSET.value
             logger.debug("Resuming from offset %d", req.startOffset)
         else:
-            req.startPosition = start_position
+            req.startPosition = start_position  # type:ignore[assignment]
         to_recover: bool = (
             False  # Recover flag. Set if client from LiftbridgeError recover
         )

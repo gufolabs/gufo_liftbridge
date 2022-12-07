@@ -6,8 +6,8 @@
 # ----------------------------------------------------------------------
 
 # Third-party modules
-from grpc import StatusCode
-from grpc.experimental.aio import AioRpcError
+from grpc import StatusCode  # type:ignore[import]
+from grpc.experimental.aio import AioRpcError  # type:ignore[import]
 
 
 class LiftbridgeError(Exception):

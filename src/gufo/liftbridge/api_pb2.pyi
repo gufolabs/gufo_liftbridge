@@ -1,6 +1,9 @@
-from google.protobuf.internal import containers as _containers
+from typing import List
+from google.protobuf.internal import (  # type:ignore[import]
+    containers as _containers,
+)
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
-from google.protobuf import descriptor as _descriptor
+from google.protobuf import descriptor as _descriptor  # type:ignore[import]
 from google.protobuf import message as _message
 from typing import (
     ClassVar as _ClassVar,
@@ -46,7 +49,7 @@ class Ack(_message.Message):
     ]
 
     class Error(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
-        __slots__ = []
+        __slots__: List[str] = []
     ACKERROR_FIELD_NUMBER: _ClassVar[int]
     ACKINBOX_FIELD_NUMBER: _ClassVar[int]
     ACKPOLICY_FIELD_NUMBER: _ClassVar[int]
@@ -175,7 +178,7 @@ class ConsumerGroupMetadata(_message.Message):
     __slots__ = ["coordinator", "epoch", "error", "groupId"]
 
     class Error(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
-        __slots__ = []
+        __slots__: List[str] = []
     COORDINATOR_FIELD_NUMBER: _ClassVar[int]
     EPOCH_FIELD_NUMBER: _ClassVar[int]
     ERROR_FIELD_NUMBER: _ClassVar[int]
@@ -290,7 +293,7 @@ class CreateStreamRequest(_message.Message):
     ) -> None: ...
 
 class CreateStreamResponse(_message.Message):
-    __slots__ = []
+    __slots__: List[str] = []
     def __init__(self) -> None: ...
 
 class DeleteStreamOp(_message.Message):
@@ -306,7 +309,7 @@ class DeleteStreamRequest(_message.Message):
     def __init__(self, name: _Optional[str] = ...) -> None: ...
 
 class DeleteStreamResponse(_message.Message):
-    __slots__ = []
+    __slots__: List[str] = []
     def __init__(self) -> None: ...
 
 class FetchConsumerGroupAssignmentsRequest(_message.Message):
@@ -491,7 +494,7 @@ class LeaveConsumerGroupRequest(_message.Message):
     ) -> None: ...
 
 class LeaveConsumerGroupResponse(_message.Message):
-    __slots__ = []
+    __slots__: List[str] = []
     def __init__(self) -> None: ...
 
 class Message(_message.Message):
@@ -689,14 +692,14 @@ class PauseStreamRequest(_message.Message):
     ) -> None: ...
 
 class PauseStreamResponse(_message.Message):
-    __slots__ = []
+    __slots__: List[str] = []
     def __init__(self) -> None: ...
 
 class PublishAsyncError(_message.Message):
     __slots__ = ["code", "message"]
 
     class Code(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
-        __slots__ = []
+        __slots__: List[str] = []
     BAD_REQUEST: PublishAsyncError.Code
     CODE_FIELD_NUMBER: _ClassVar[int]
     ENCRYPTION_FAILED: PublishAsyncError.Code
@@ -855,7 +858,7 @@ class ReportConsumerGroupCoordinatorRequest(_message.Message):
     ) -> None: ...
 
 class ReportConsumerGroupCoordinatorResponse(_message.Message):
-    __slots__ = []
+    __slots__: List[str] = []
     def __init__(self) -> None: ...
 
 class ResumeStreamOp(_message.Message):
@@ -889,7 +892,7 @@ class SetCursorRequest(_message.Message):
     ) -> None: ...
 
 class SetCursorResponse(_message.Message):
-    __slots__ = []
+    __slots__: List[str] = []
     def __init__(self) -> None: ...
 
 class SetStreamReadonlyOp(_message.Message):
@@ -923,14 +926,14 @@ class SetStreamReadonlyRequest(_message.Message):
     ) -> None: ...
 
 class SetStreamReadonlyResponse(_message.Message):
-    __slots__ = []
+    __slots__: List[str] = []
     def __init__(self) -> None: ...
 
 class StreamMetadata(_message.Message):
     __slots__ = ["creationTimestamp", "error", "name", "partitions", "subject"]
 
     class Error(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
-        __slots__ = []
+        __slots__: List[str] = []
 
     class PartitionsEntry(_message.Message):
         __slots__ = ["key", "value"]
@@ -1016,13 +1019,13 @@ class SubscribeRequest(_message.Message):
     ) -> None: ...
 
 class StartPosition(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
-    __slots__ = []
+    __slots__: List[str] = []
 
 class StopPosition(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
-    __slots__ = []
+    __slots__: List[str] = []
 
 class AckPolicy(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
-    __slots__ = []
+    __slots__: List[str] = []
 
 class ActivityStreamOp(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
-    __slots__ = []
+    __slots__: List[str] = []
