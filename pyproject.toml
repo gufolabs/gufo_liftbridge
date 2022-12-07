@@ -10,7 +10,24 @@ line-length = 79
 target-version = ['py39']
 
 [tool.coverage.run]
+branch = false
 omit = ["*tests*", "*examples*"]
+
+[tool.coverage.html]
+directory = "dist/coverage"
+
+[tool.coverage.report]
+exclude_lines = [
+  "if TYPE_CHECKING", # Disable type-checking imports
+  '@(abc\.)?abstract', # Ignore abstract methods
+]
+include = [
+  "src/*",
+]
+omit = [
+  "src/gufo/liftbridge/api_pb2.py",
+  "src/gufo/liftbridge/api_pb2_grpc.py",
+]
 
 [tool.mypy]
 exclude = [
