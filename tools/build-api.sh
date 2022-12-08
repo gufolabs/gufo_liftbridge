@@ -32,7 +32,7 @@ rm /tmp/api_pb2_grpc.py
 PB2_PYI=./src/gufo/liftbridge/api_pb2.pyi
 cp $PB2_PYI /tmp
 echo "from typing import List" > $PB2_PYI
-cat /tmp/api_pb2.pyi | sed "s/__slots__ = []/__slots__:List[str] = []/" >> $PB2_PYI
+cat /tmp/api_pb2.pyi | sed "s/__slots__ = \[\]/__slots__:List[str] = \[\]/" >> $PB2_PYI
 rm /tmp/api_pb2.pyi
 
 # Format code
