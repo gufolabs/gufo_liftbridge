@@ -15,10 +15,10 @@ nav:
       - Publishing: examples/publish.md
       - Bulk Publishing: examples/bulk.md
       - Transparent Compression: examples/compression.md
-      - Subscribe: examples/subscribe.md
+      - Subscribing: examples/subscribe.md
+      - Subscribing with Cursor: examples/subcursor.md
       - Create Stream: examples/create.md
       - Delete Stream: examples/delete.md
-      # Cursors
   - Developers' Guide:
       - Developer's Environment: environment.md
       - Building and Testing: testing.md
