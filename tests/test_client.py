@@ -11,7 +11,6 @@ import os
 import tempfile
 import subprocess
 
-
 # Third-party modules
 import pytest
 
@@ -177,7 +176,11 @@ def test_delete_unknown_stream():
 
 
 def test_pub_sub():
-    async def prepare_stream():
+    async def prepare_stream(
+        prep_ready: asyncio.Event,
+        pub_ready: asyncio.Event,
+        sub_ready: asyncio.Event,
+    ):
         print("[prep] Running")
         async with LiftbridgeClient([BROKER]) as client:
             print("[prep] Crearing stream")
@@ -192,7 +195,7 @@ def test_pub_sub():
             await sub_ready.wait()
             print("[prep] Done")
 
-    async def publisher():
+    async def publisher(prep_ready: asyncio.Event, pub_ready: asyncio.Event):
         print("[pub] Running")
         await prep_ready.wait()
         async with LiftbridgeClient([BROKER]) as client:
@@ -209,7 +212,7 @@ def test_pub_sub():
         pub_ready.set()
         print("[pub] Done")
 
-    async def subscriber():
+    async def subscriber(prep_ready: asyncio.Event, sub_ready: asyncio.Event):
         print("[sub] Running")
         await prep_ready.wait()
         expected = 0
@@ -231,22 +234,28 @@ def test_pub_sub():
         print("[sub] Done")
 
     async def run():
+        prep_ready = asyncio.Event()
+        sub_ready = asyncio.Event()
+        pub_ready = asyncio.Event()
         await asyncio.gather(
-            prepare_stream(),
-            publisher(),
-            subscriber(),
+            prepare_stream(
+                prep_ready=prep_ready, pub_ready=pub_ready, sub_ready=sub_ready
+            ),
+            publisher(prep_ready=prep_ready, pub_ready=pub_ready),
+            subscriber(prep_ready=prep_ready, sub_ready=sub_ready),
         )
 
     STREAM = "test_pubsub1"
     N = 10
-    prep_ready = asyncio.Event()
-    sub_ready = asyncio.Event()
-    pub_ready = asyncio.Event()
     asyncio.run(asyncio.wait_for(run(), 10.0))
 
 
 def test_pub_sub_offset():
-    async def prepare_stream():
+    async def prepare_stream(
+        prep_ready: asyncio.Event,
+        pub_ready: asyncio.Event,
+        sub_ready: asyncio.Event,
+    ):
         print("[prep] Running")
         async with LiftbridgeClient([BROKER]) as client:
             print("[prep] Crearing stream")
@@ -261,7 +270,7 @@ def test_pub_sub_offset():
             await sub_ready.wait()
             print("[prep] Done")
 
-    async def publisher():
+    async def publisher(prep_ready: asyncio.Event, pub_ready: asyncio.Event):
         print("[pub] Running")
         await prep_ready.wait()
         async with LiftbridgeClient([BROKER]) as client:
@@ -278,7 +287,7 @@ def test_pub_sub_offset():
         pub_ready.set()
         print("[pub] Done")
 
-    async def subscriber():
+    async def subscriber(pub_ready: asyncio.Event, sub_ready: asyncio.Event):
         print("[sub] Running")
         await pub_ready.wait()
         expected = 5
@@ -300,22 +309,28 @@ def test_pub_sub_offset():
         print("[sub] Done")
 
     async def run():
+        prep_ready = asyncio.Event()
+        sub_ready = asyncio.Event()
+        pub_ready = asyncio.Event()
         await asyncio.gather(
-            prepare_stream(),
-            publisher(),
-            subscriber(),
+            prepare_stream(
+                prep_ready=prep_ready, pub_ready=pub_ready, sub_ready=sub_ready
+            ),
+            publisher(prep_ready=prep_ready, pub_ready=pub_ready),
+            subscriber(pub_ready=pub_ready, sub_ready=sub_ready),
         )
 
     STREAM = "test_pubsub3"
     N = 10
-    prep_ready = asyncio.Event()
-    sub_ready = asyncio.Event()
-    pub_ready = asyncio.Event()
     asyncio.run(asyncio.wait_for(run(), 10.0))
 
 
 def test_pub_sub_resume():
-    async def prepare_stream():
+    async def prepare_stream(
+        prep_ready: asyncio.Event,
+        pub_ready: asyncio.Event,
+        sub_ready: asyncio.Event,
+    ):
         print("[prep] Running")
         async with LiftbridgeClient([BROKER]) as client:
             print("[prep] Crearing stream")
@@ -330,7 +345,10 @@ def test_pub_sub_resume():
             await sub_ready.wait()
             print("[prep] Done")
 
-    async def publisher():
+    async def publisher(
+        prep_ready: asyncio.Event,
+        pub_ready: asyncio.Event,
+    ):
         print("[pub] Running")
         await prep_ready.wait()
         async with LiftbridgeClient([BROKER]) as client:
@@ -351,7 +369,10 @@ def test_pub_sub_resume():
         pub_ready.set()
         print("[pub] Done")
 
-    async def subscriber():
+    async def subscriber(
+        pub_ready: asyncio.Event,
+        sub_ready: asyncio.Event,
+    ):
         print("[sub] Running")
         await pub_ready.wait()
         expected = 5
@@ -376,23 +397,29 @@ def test_pub_sub_resume():
         print("[sub] Done")
 
     async def run():
+        prep_ready = asyncio.Event()
+        sub_ready = asyncio.Event()
+        pub_ready = asyncio.Event()
         await asyncio.gather(
-            prepare_stream(),
-            publisher(),
-            subscriber(),
+            prepare_stream(
+                prep_ready=prep_ready, pub_ready=pub_ready, sub_ready=sub_ready
+            ),
+            publisher(prep_ready=prep_ready, pub_ready=pub_ready),
+            subscriber(pub_ready=pub_ready, sub_ready=sub_ready),
         )
 
     STREAM = "test_pubsub4"
     CURSOR = "pos"
     N = 10
-    prep_ready = asyncio.Event()
-    sub_ready = asyncio.Event()
-    pub_ready = asyncio.Event()
     asyncio.run(asyncio.wait_for(run(), 10.0))
 
 
 def test_bulk_pub_sub():
-    async def prepare_stream():
+    async def prepare_stream(
+        prep_ready: asyncio.Event,
+        pub_ready: asyncio.Event,
+        sub_ready: asyncio.Event,
+    ):
         print("[prep] Running")
         async with LiftbridgeClient([BROKER]) as client:
             print("[prep] Crearing stream")
@@ -420,7 +447,10 @@ def test_bulk_pub_sub():
                 auto_compress=True,
             )
 
-    async def publisher():
+    async def publisher(
+        prep_ready: asyncio.Event,
+        pub_ready: asyncio.Event,
+    ):
         print("[pub] Running")
         await prep_ready.wait()
         async with LiftbridgeClient([BROKER]) as client:
@@ -431,7 +461,10 @@ def test_bulk_pub_sub():
         pub_ready.set()
         print("[pub] Done")
 
-    async def subscriber():
+    async def subscriber(
+        prep_ready: asyncio.Event,
+        sub_ready: asyncio.Event,
+    ):
         print("[sub] Running")
         await prep_ready.wait()
         expected = 0
@@ -453,22 +486,26 @@ def test_bulk_pub_sub():
         print("[sub] Done")
 
     async def run():
+        prep_ready = asyncio.Event()
+        sub_ready = asyncio.Event()
+        pub_ready = asyncio.Event()
         await asyncio.gather(
-            prepare_stream(),
-            publisher(),
-            subscriber(),
+            prepare_stream(
+                prep_ready=prep_ready, pub_ready=pub_ready, sub_ready=sub_ready
+            ),
+            publisher(prep_ready=prep_ready, pub_ready=pub_ready),
+            subscriber(prep_ready=prep_ready, sub_ready=sub_ready),
         )
 
     STREAM = "test_pubsub2"
     N = 10
-    prep_ready = asyncio.Event()
-    sub_ready = asyncio.Event()
-    pub_ready = asyncio.Event()
     asyncio.run(asyncio.wait_for(run(), 10.0))
 
 
 def test_cursor():
-    async def prepare_stream():
+    async def prepare_stream(
+        prep_ready: asyncio.Event, cur_ready: asyncio.Event
+    ):
         print("[prep] Running")
         async with LiftbridgeClient([BROKER]) as client:
             print("[prep] Crearing stream")
@@ -483,7 +520,7 @@ def test_cursor():
             await cur_ready.wait()
             print("[prep] Done")
 
-    async def cursors():
+    async def cursors(prep_ready: asyncio.Event, cur_ready: asyncio.Event):
         print("[cur] Running")
         await prep_ready.wait()
         async with LiftbridgeClient([BROKER]) as client:
@@ -508,16 +545,16 @@ def test_cursor():
         print("[cur] Done")
 
     async def run():
+        prep_ready = asyncio.Event()
+        cur_ready = asyncio.Event()
         await asyncio.gather(
-            prepare_stream(),
-            cursors(),
+            prepare_stream(prep_ready=prep_ready, cur_ready=cur_ready),
+            cursors(prep_ready=prep_ready, cur_ready=cur_ready),
         )
 
     STREAM = "test_cursor"
     CURSOR = "test"
     N = 10
-    prep_ready = asyncio.Event()
-    cur_ready = asyncio.Event()
     asyncio.run(asyncio.wait_for(run(), 10.0))
 
 
