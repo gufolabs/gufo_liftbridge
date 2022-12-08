@@ -133,9 +133,6 @@ Use `asyncio.run()` function to start our async code.
 [Liftbridge Docs]: https://liftbridge.io/docs/overview.html
 [LiftbridgeClient]: ../../reference/gufo/liftbridge/client/#gufo.liftbridge.client.LiftbridgeClient
 [subscribe]: ../../reference/gufo/liftbridge/client/#gufo.liftbridge.client.LiftbridgeClient.subscribe
-[StartPosition]: ../../reference/gufo/liftbridge/types/#gufo.liftbridge.types.StartPosition
 [Message]: ../../reference/gufo/liftbridge/types/#gufo.liftbridge.types.Message
 [create_ex]: create.md
 [subscribe_ex]: subscribe.md
-[bulk_ex]: bulk.md
-[compression_ex]: compression.md

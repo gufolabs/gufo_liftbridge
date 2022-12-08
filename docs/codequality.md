@@ -19,6 +19,8 @@ Google docstrings format.
 * Code must not contain unused variables.
 * Code must not use `l` variable or function names.
 
+All python code must pass [Flake8][Flake8] tests.
+
 ## Python Code Static Checks
 
 All python code must pass [Mypy][Mypy] type checks in the `strict` mode.
@@ -34,5 +36,4 @@ The test suite must provide 100% code coverage whenever possible.
 [Black]: https://black.readthedocs.io/en/stable
 [Flake8]: https://flake8.pycqa.org/en/latest/
 [Mypy]: https://mypy.readthedocs.io/en/stable/
-[Pytest]: https://docs.pytest.org/
 [PEP8]: https://peps.python.org/pep-0008/

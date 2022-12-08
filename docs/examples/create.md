@@ -63,21 +63,19 @@ explanations.
 --8<-- "examples/create.py"
 ```
 
-We use the [create_stream()][create] function to create
-a stream `test` with one partition. By default, [create_stream()][create]
+We use the [create_stream()][create_stream] function to create
+a stream `test` with one partition. By default, [create_stream()][create_stream]
 doesn't wait until the partition is replicated via the cluster.
 The `wait_for_stream` parameter instructs to wait until the new stream
-is ready for use. The [create_stream()][create] is an async function
+is ready for use. The [create_stream()][create_stream] is an async function
 and must be awaited.
 
-Refer to the [create_stream()][create] reference for the explanations.
+Refer to the [create_stream()][create_stream] reference for the explanations.
 
 ``` py title="create.py" linenums="1" hl_lines="12"
 --8<-- "examples/create.py"
 ```
 Use `asyncio.run()` function to start our async code.
 
-[Liftbridge Docs]: https://liftbridge.io/docs/overview.html
 [LiftbridgeClient]: ../../reference/gufo/liftbridge/client/#gufo.liftbridge.client.LiftbridgeClient
 [create_stream]: ../../reference/gufo/liftbridge/client/#gufo.liftbridge.client.LiftbridgeClient.create_stream
-[create]: create.md

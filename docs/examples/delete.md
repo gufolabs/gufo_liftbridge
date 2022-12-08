@@ -72,7 +72,6 @@ and must be awaited.
 ```
 Use `asyncio.run()` function to start our async code.
 
-[Liftbridge Docs]: https://liftbridge.io/docs/overview.html
 [LiftbridgeClient]: ../../reference/gufo/liftbridge/client/#gufo.liftbridge.client.LiftbridgeClient
 [delete_stream]: ../../reference/gufo/liftbridge/client/#gufo.liftbridge.client.LiftbridgeClient.delete_stream
 [create_ex]: create.md
