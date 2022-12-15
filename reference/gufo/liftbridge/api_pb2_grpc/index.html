@@ -1,0 +1,1739 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Gufo Liftbridge Documentation">
+      
+      
+        <meta name="author" content="Gufo Labs">
+      
+      
+        <link rel="canonical" href="https://docs.gufolabs.com/gufo_liftbridge/reference/gufo/liftbridge/api_pb2_grpc/">
+      
+      <link rel="icon" href="../../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.8">
+    
+    
+      
+        <title>api_pb2_grpc - Gufo Liftbridge</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.20d9efc8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.815d1a91.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gufoliftbridgeapi_pb2_grpc" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Gufo Liftbridge" class="md-header__button md-logo" aria-label="Gufo Liftbridge" data-md-component="logo">
+      
+  <img src="../../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gufo Liftbridge
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              api_pb2_grpc
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/gufolabs/gufo_liftbridge/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Gufo Liftbridge" class="md-nav__button md-logo" aria-label="Gufo Liftbridge" data-md-component="logo">
+      
+  <img src="../../../../assets/logo.png" alt="logo">
+
+    </a>
+    Gufo Liftbridge
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/gufolabs/gufo_liftbridge/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_1">
+          gufo.liftbridge
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="gufo.liftbridge" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          gufo.liftbridge
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        gufo.liftbridge
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api_pb2/" class="md-nav__link">
+        api_pb2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          api_pb2_grpc
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        api_pb2_grpc
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc" class="md-nav__link">
+    gufo.liftbridge.api_pb2_grpc
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.API" class="md-nav__link">
+    API
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer" class="md-nav__link">
+    APIServicer
+  </a>
+  
+    <nav class="md-nav" aria-label="APIServicer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.CreateStream" class="md-nav__link">
+    CreateStream()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.DeleteStream" class="md-nav__link">
+    DeleteStream()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.FetchConsumerGroupAssignments" class="md-nav__link">
+    FetchConsumerGroupAssignments()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.FetchCursor" class="md-nav__link">
+    FetchCursor()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.FetchMetadata" class="md-nav__link">
+    FetchMetadata()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.FetchPartitionMetadata" class="md-nav__link">
+    FetchPartitionMetadata()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.JoinConsumerGroup" class="md-nav__link">
+    JoinConsumerGroup()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.LeaveConsumerGroup" class="md-nav__link">
+    LeaveConsumerGroup()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.PauseStream" class="md-nav__link">
+    PauseStream()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.Publish" class="md-nav__link">
+    Publish()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.PublishAsync" class="md-nav__link">
+    PublishAsync()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.PublishToSubject" class="md-nav__link">
+    PublishToSubject()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.ReportConsumerGroupCoordinator" class="md-nav__link">
+    ReportConsumerGroupCoordinator()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.SetCursor" class="md-nav__link">
+    SetCursor()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.SetStreamReadonly" class="md-nav__link">
+    SetStreamReadonly()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.Subscribe" class="md-nav__link">
+    Subscribe()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIStub" class="md-nav__link">
+    APIStub
+  </a>
+  
+    <nav class="md-nav" aria-label="APIStub">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIStub.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../client/" class="md-nav__link">
+        client
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compressor/" class="md-nav__link">
+        compressor
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../error/" class="md-nav__link">
+        error
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types/" class="md-nav__link">
+        types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/" class="md-nav__link">
+        utils
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../examples/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../examples/publish/" class="md-nav__link">
+        Publishing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../examples/bulk/" class="md-nav__link">
+        Bulk Publishing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../examples/compression/" class="md-nav__link">
+        Transparent Compression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../examples/subscribe/" class="md-nav__link">
+        Subscribing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../examples/subcursor/" class="md-nav__link">
+        Subscribing with Cursor
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../examples/create/" class="md-nav__link">
+        Create Stream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../examples/delete/" class="md-nav__link">
+        Delete Stream
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Developers' Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Developers' Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Developers' Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../environment/" class="md-nav__link">
+        Developer's Environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../testing/" class="md-nav__link">
+        Building and Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../devcommon/" class="md-nav__link">
+        Common Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../codequality/" class="md-nav__link">
+        Code Quality
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../codebase/" class="md-nav__link">
+        Code Base
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../CONTRIBUTING/" class="md-nav__link">
+        Contributing Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../CODE_OF_CONDUCT/" class="md-nav__link">
+        Code of Conduct
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../CHANGELOG/" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LICENSE/" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc" class="md-nav__link">
+    gufo.liftbridge.api_pb2_grpc
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.API" class="md-nav__link">
+    API
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer" class="md-nav__link">
+    APIServicer
+  </a>
+  
+    <nav class="md-nav" aria-label="APIServicer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.CreateStream" class="md-nav__link">
+    CreateStream()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.DeleteStream" class="md-nav__link">
+    DeleteStream()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.FetchConsumerGroupAssignments" class="md-nav__link">
+    FetchConsumerGroupAssignments()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.FetchCursor" class="md-nav__link">
+    FetchCursor()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.FetchMetadata" class="md-nav__link">
+    FetchMetadata()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.FetchPartitionMetadata" class="md-nav__link">
+    FetchPartitionMetadata()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.JoinConsumerGroup" class="md-nav__link">
+    JoinConsumerGroup()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.LeaveConsumerGroup" class="md-nav__link">
+    LeaveConsumerGroup()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.PauseStream" class="md-nav__link">
+    PauseStream()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.Publish" class="md-nav__link">
+    Publish()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.PublishAsync" class="md-nav__link">
+    PublishAsync()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.PublishToSubject" class="md-nav__link">
+    PublishToSubject()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.ReportConsumerGroupCoordinator" class="md-nav__link">
+    ReportConsumerGroupCoordinator()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.SetCursor" class="md-nav__link">
+    SetCursor()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.SetStreamReadonly" class="md-nav__link">
+    SetStreamReadonly()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.Subscribe" class="md-nav__link">
+    Subscribe()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIStub" class="md-nav__link">
+    APIStub
+  </a>
+  
+    <nav class="md-nav" aria-label="APIStub">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gufo.liftbridge.api_pb2_grpc.APIStub.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/gufolabs/gufo_liftbridge/edit/master/docs/src/gufo/liftbridge/api_pb2_grpc.py" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="gufoliftbridgeapi_pb2_grpc">gufo.liftbridge.api_pb2_grpc<a class="headerlink" href="#gufoliftbridgeapi_pb2_grpc" title="Permanent link">&para;</a></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+<a id="gufo.liftbridge.api_pb2_grpc"></a>
+  <div class="doc doc-contents first">
+  
+      <p>Client and server classes corresponding to protobuf-defined services.</p>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="gufo.liftbridge.api_pb2_grpc.API" class="doc doc-heading">
+        <code>API</code>
+
+
+<a href="#gufo.liftbridge.api_pb2_grpc.API" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code>object</code></p>
+
+  
+      <p>API is the main Liftbridge server interface clients interact with.</p>
+
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="gufo.liftbridge.api_pb2_grpc.APIServicer" class="doc doc-heading">
+        <code>APIServicer</code>
+
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code>object</code></p>
+
+  
+      <p>API is the main Liftbridge server interface clients interact with.</p>
+
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.CreateStream" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">CreateStream</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.CreateStream" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>CreateStream creates a new stream attached to a NATS subject. It returns
+an AlreadyExists status code if a stream with the given subject and name
+already exists.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.DeleteStream" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">DeleteStream</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.DeleteStream" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>DeleteStream deletes a stream.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.FetchConsumerGroupAssignments" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">FetchConsumerGroupAssignments</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.FetchConsumerGroupAssignments" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>FetchConsumerGroupAssignments retrieves the partition assignments for a
+consumer. This also acts as a heartbeat for the consumer so that the
+coordinator keeps the consumer active in the group.</p>
+<p>NOTE: This is a beta endpoint and is subject to change. It is not
+included as part of Liftbridge's semantic versioning scheme.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.FetchCursor" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">FetchCursor</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.FetchCursor" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>FetchCursor retrieves a partition cursor position.</p>
+<p>NOTE: This is a beta endpoint and is subject to change. It is not
+included as part of Liftbridge's semantic versioning scheme.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.FetchMetadata" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">FetchMetadata</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.FetchMetadata" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>FetchMetadata retrieves the latest cluster metadata, including stream
+broker information.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.FetchPartitionMetadata" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">FetchPartitionMetadata</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.FetchPartitionMetadata" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>FetchPartitionMetadata retrieves the latest partition metadata from partition leader
+The main interest is to retrieve Highest Watermark and Newest Offset</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.JoinConsumerGroup" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">JoinConsumerGroup</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.JoinConsumerGroup" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>JoinConsumerGroup adds a consumer to a consumer group. If the group does
+not exist, it will create it first.</p>
+<p>NOTE: This is a beta endpoint and is subject to change. It is not
+included as part of Liftbridge's semantic versioning scheme.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.LeaveConsumerGroup" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">LeaveConsumerGroup</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.LeaveConsumerGroup" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>LeaveConsumerGroup removes a consumer from a consumer group.</p>
+<p>NOTE: This is a beta endpoint and is subject to change. It is not
+included as part of Liftbridge's semantic versioning scheme.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.PauseStream" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">PauseStream</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.PauseStream" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>PauseStream pauses a stream's partitions. If no partitions are
+specified, all of the stream's partitions will be paused. Partitions are
+resumed when they are published to via the Liftbridge Publish API.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.Publish" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">Publish</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.Publish" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Publish a new message to a stream. If the AckPolicy is not NONE and a
+deadline is provided, this will synchronously block until the ack is
+received. If the ack is not received in time, a DeadlineExceeded status
+code is returned.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.PublishAsync" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">PublishAsync</span><span class="p">(</span><span class="n">request_iterator</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.PublishAsync" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>PublishAsync is used to asynchronously publish messages to a stream in a
+pipelined fashion. This returns a stream which will yield
+PublishResponses for messages whose AckPolicy is not NONE.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.PublishToSubject" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">PublishToSubject</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.PublishToSubject" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Publish a Liftbridge message to a NATS subject. If the AckPolicy is not NONE and a
+deadline is provided, this will synchronously block until the first ack
+is received. If an ack is not received in time, a DeadlineExceeded
+status code is returned.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.ReportConsumerGroupCoordinator" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">ReportConsumerGroupCoordinator</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.ReportConsumerGroupCoordinator" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>ReportConsumerGroupCoordinator reports a consumer group coordinator as
+failed. If a majority of the group's members report the coordinator
+within a bounded period, the cluster will select a new coordinator.</p>
+<p>NOTE: This is a beta endpoint and is subject to change. It is not
+included as part of Liftbridge's semantic versioning scheme.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.SetCursor" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">SetCursor</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.SetCursor" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>SetCursor stores a cursor position for a particular stream partition
+which is uniquely identified by an opaque string.</p>
+<p>NOTE: This is a beta endpoint and is subject to change. It is not
+included as part of Liftbridge's semantic versioning scheme.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.SetStreamReadonly" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">SetStreamReadonly</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.SetStreamReadonly" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>SetStreamReadonly sets a read-only flag to a partition. Returns a
+NoSuchStream error code if the given stream or partition does not exist.</p>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIServicer.Subscribe" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">Subscribe</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIServicer.Subscribe" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Subscribe creates an ephemeral subscription for the given stream. It
+begins to receive messages starting at the given offset and waits for
+new messages when it reaches the end of the stream. Use the request
+context to close the subscription.</p>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="gufo.liftbridge.api_pb2_grpc.APIStub" class="doc doc-heading">
+        <code>APIStub</code>
+
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIStub" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code>object</code></p>
+
+  
+      <p>API is the main Liftbridge server interface clients interact with.</p>
+
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="gufo.liftbridge.api_pb2_grpc.APIStub.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span></code>
+
+<a href="#gufo.liftbridge.api_pb2_grpc.APIStub.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Constructor.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>channel</code></td>
+          <td>
+          </td>
+          <td><p>A grpc.Channel.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../api_pb2/" class="md-footer__link md-footer__link--prev" aria-label="Previous: api_pb2" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              api_pb2
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../client/" class="md-footer__link md-footer__link--next" aria-label="Next: client" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              client
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2022, Gufo Labs
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
+      
+    
+  </body>
+</html>
