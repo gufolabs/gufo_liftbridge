@@ -8,6 +8,10 @@ To see unreleased changes, please see the [CHANGELOG on the master branch](https
 
 ## [Unreleased]
 
+### Added
+
+* docs: Supported standards page
+
 ### Infrastructure
 
 * Use `actions/checkout@v3`
