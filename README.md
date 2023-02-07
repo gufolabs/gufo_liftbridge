@@ -5,7 +5,7 @@
 [![PyPi version](https://img.shields.io/pypi/v/gufo_liftbridge.svg)](https://pypi.python.org/pypi/gufo_liftbridge/)
 ![Python Versions](https://img.shields.io/pypi/pyversions/gufo_liftbridge)
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-![Build](https://img.shields.io/github/workflow/status/gufolabs/gufo_liftbridge/Run%20Tests/master)
+![Build](https://img.shields.io/github/actions/workflow/status/gufolabs/gufo_liftbridge/py-tests.yml?branch=master)
 ![Sponsors](https://img.shields.io/github/sponsors/gufolabs)
 
 ---
