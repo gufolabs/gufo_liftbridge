@@ -48,5 +48,3 @@ the other network management products better.
 [Gufo Labs]: https://gufolabs.com/
 [Gufo Stack]: https://gufolabs.com/products/gufo-stack/
 [NOC]: https://getnoc.com/
-[Python]: https://python.org/
-[Liftbridge]: https://liftbridge.io/
