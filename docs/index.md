@@ -1,6 +1,15 @@
-# Gufo Liftbridge Documentation
+---
+template: index.html
+hide:
+    - navigation
+    - toc
+hero:
+    title: Gufo Liftbridge
+    subtitle: The Python asyncio Liftbridge client library
+    install_button: Getting Started
+    source_button: Source Code
+---
 
-*Gufo Liftbridge* is the [Python][Python] asyncio [Liftbridge][Liftbridge] client library.
 It hides complex cluster topology management handling tasks and the internals of the gRPC as well. 
 Client offers following features:
 

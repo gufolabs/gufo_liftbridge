@@ -1,3 +1,7 @@
+---
+hide:
+    - navigation
+---
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -10,6 +14,7 @@ To see unreleased changes, please see the [CHANGELOG on the master branch](https
 
 ### Added
 
+* docs: Fancy front page
 * docs: Supported standards page
 
 ### Infrastructure
