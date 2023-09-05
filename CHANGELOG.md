@@ -23,6 +23,7 @@ To see unreleased changes, please see the [CHANGELOG on the master branch](https
 * Use `actions/cache@v3`
 * Project structure tests
 * CI workflows tests
+* devcontainer: `settings` are moved to `customizations.vscode.settings`
 
 ## 0.1.0 - 2022-12-08
 
