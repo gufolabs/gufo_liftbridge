@@ -1,14 +1,15 @@
 # ----------------------------------------------------------------------
-# Gufo Liftbridge: docs tests
+# Gufo Traceroute: docs tests
 # ----------------------------------------------------------------------
-# Copyright (C) 2022, Gufo Labs
+# Copyright (C) 2022-23, Gufo Labs
 # See LICENSE.md for details
 # ----------------------------------------------------------------------
 
 # Python modules
-from typing import Optional, List, Set
 import os
 import re
+from functools import lru_cache
+from typing import List, Optional, Set
 
 # Third-party modules
 import pytest
@@ -20,16 +21,14 @@ rx_link_def = re.compile(r"^\[([^\]]+)\]:", re.MULTILINE)
 rx_footnote = re.compile(r"[^\]]\[(\^\d+)\][^\[]", re.MULTILINE)
 
 
-def get_docs():
-    global _doc_files
-
-    if _doc_files is None:
-        _doc_files = []
-        for root, _, files in os.walk("docs"):
-            for f in files:
-                if f.endswith(".md") and not f.startswith("."):
-                    _doc_files.append(os.path.join(root, f))
-    return _doc_files
+@lru_cache(maxsize=1)
+def get_docs() -> List[str]:
+    doc_files: List[str] = []
+    for root, _, files in os.walk("docs"):
+        for f in files:
+            if f.endswith(".md") and not f.startswith("."):
+                doc_files.append(os.path.join(root, f))
+    return doc_files
 
 
 def get_file(path: str) -> str:
@@ -38,7 +37,7 @@ def get_file(path: str) -> str:
 
 
 @pytest.mark.parametrize("doc", get_docs())
-def test_links(doc: str):
+def test_links(doc: str) -> None:
     data = get_file(doc)
     links: Set[str] = set()
     defs: Set[str] = set()
