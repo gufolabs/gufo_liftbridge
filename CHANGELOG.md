@@ -24,6 +24,7 @@ To see unreleased changes, please see the [CHANGELOG on the master branch](https
 * Project structure tests
 * CI workflows tests
 * devcontainer: `settings` are moved to `customizations.vscode.settings`
+* use pypa/gh-action-pypi-publish@release/v1
 
 ## 0.1.0 - 2022-12-08
 
