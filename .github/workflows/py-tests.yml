@@ -20,13 +20,46 @@ on:
   release:
     types: ["published"]
 jobs:
+  py-lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Set Up Python {{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      # Cache dependencies
+      - name: Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ./.pip
+          key: ${{ runner.os }}-lint-3.13-${{ hashFiles('pyproject.toml') }}
+
+      - name: Upgrade Pip
+        run: python -m pip install --upgrade pip
+
+      - name: Install Dependencies
+        run: pip install -IU -e .[lint,extras]
+
+      - name: Check Formatting
+        run: ruff format --check examples/ src/ tests/
+
+      - name: Check ruff
+        run: ruff check -q examples/ src/ tests/
+
+      - name: Check Mypy
+        run: mypy --strict src/
   test:
     runs-on: ubuntu-20.04
+    needs: [py-lint]
     strategy:
       fail-fast: true
       matrix:
         # Run on all supported versions
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -50,16 +83,7 @@ jobs:
         run: pip install --upgrade build
 
       - name: Install Dependencies
-        run: pip install -IU -e .[lint,test]
-
-      - name: Check Formatting
-        run: ruff format --check examples/ src/ tests/
-
-      - name: Check Ruff
-        run: ruff check examples/ src/ tests/
-
-      - name: Check Mypy
-        run: mypy src/
+        run: pip install -IU -e .[test]
 
       - name: Install Liftbridge
         run: >
@@ -76,14 +100,17 @@ jobs:
   publish:
     runs-on: ubuntu-20.04
     needs: test
+    environment: pypi
+    permissions:
+      id-token: write
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
-      - name: Set Up Python 3.11
+      - name: Set Up Python 3.13
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: "3.13"
 
       - name: Upgrade Pip
         run: python -m pip install --upgrade pip
@@ -104,4 +131,4 @@ jobs:
         if: startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          print-hash: true
