@@ -151,7 +151,7 @@ class APIServicer(object):
 
     def FetchPartitionMetadata(self, request, context):
         """FetchPartitionMetadata retrieves the latest partition metadata from partition leader
-        The main interest is to retrieve Highest Watermark and Newest Offset
+        The main interest is to retrieve Highest Watermark and Newest Offset.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")

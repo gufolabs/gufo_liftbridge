@@ -19,6 +19,8 @@ To see unreleased changes, please see the [CHANGELOG on the master branch](https
 
 ### Infrastructure
 
+* Ruff code linter
+* Ruff formatter
 * Move dependencies to pyproject.toml
 * grpcio 1.74.0
 * protobuf 6.32

@@ -1,12 +1,13 @@
 # ----------------------------------------------------------------------
 # Gufo Liftbridge: Compression utilities
 # ----------------------------------------------------------------------
-# Copyright (C) 2022, Gufo Labs
+# Copyright (C) 2022-25, Gufo Labs
 # See LICENSE.md for details
 # ----------------------------------------------------------------------
+"""Compressor implementations."""
 
 # Python modules
-from typing import cast, Callable, Dict, Tuple
+from typing import Callable, Dict, Tuple, cast
 
 TCompressor = Callable[[bytes], bytes]
 TDecompressor = Callable[[bytes], bytes]
@@ -17,13 +18,15 @@ _DECOMPRESSORS: Dict[str, TDecompressor] = {}
 
 
 def _get_zlib() -> Tuple[TCompressor, TDecompressor]:
-    from zlib import compress as z_compress, decompress as z_decompress
+    from zlib import compress as z_compress
+    from zlib import decompress as z_decompress
 
     return cast(TCompressor, z_compress), cast(TDecompressor, z_decompress)
 
 
 def _get_lzma() -> Tuple[TCompressor, TDecompressor]:
-    from lzma import compress as lzma_compress, decompress as lzma_decompress
+    from lzma import compress as lzma_compress
+    from lzma import decompress as lzma_decompress
 
     return cast(TCompressor, lzma_compress), cast(
         TDecompressor, lzma_decompress
@@ -36,8 +39,9 @@ _handlers = {"zlib": _get_zlib, "lzma": _get_lzma}
 def _get_handlers(method: str) -> Tuple[TCompressor, TDecompressor]:
     try:
         return _handlers[method]()
-    except KeyError:
-        raise ValueError(f"Invalid compression method: {method}")
+    except KeyError as e:
+        msg = f"Invalid compression method: {method}"
+        raise ValueError(msg) from e
 
 
 def compress(value: bytes, method: str) -> bytes:

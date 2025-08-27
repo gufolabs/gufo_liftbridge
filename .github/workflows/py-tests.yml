@@ -53,10 +53,10 @@ jobs:
         run: pip install -IU -e .[lint,test]
 
       - name: Check Formatting
-        run: black --check examples/ src/ tests/
+        run: ruff format --check examples/ src/ tests/
 
-      - name: Check Flake8
-        run: flake8 examples/ src/ tests/
+      - name: Check Ruff
+        run: ruff check examples/ src/ tests/
 
       - name: Check Mypy
         run: mypy src/

@@ -28,8 +28,20 @@ target-version = "py39"
 # Always autofix, but never try to fix `F401` (unused imports).
 fix = true
 
+[tool.ruff.format]
+exclude = [
+  "src/gufo/liftbridge/api_pb2.py",
+  "src/gufo/liftbridge/api_pb2.pyi",
+  "src/gufo/liftbridge/api_pb2_grpc.py",
+]
+
 [tool.ruff.lint]
-ignore = ["D203", "D212", "D107", "A002", "A003", "PLR0911", "PLR0913"]
+exclude = [
+  "src/gufo/liftbridge/api_pb2.py",
+  "src/gufo/liftbridge/api_pb2.pyi",
+  "src/gufo/liftbridge/api_pb2_grpc.py",
+]
+ignore = ["D203", "D212", "D107", "A002", "A003", "PLR0911", "PLR0912", "PLR0913", "C901"]
 # Enable
 select = [
   "E", # Pycodestyle Error

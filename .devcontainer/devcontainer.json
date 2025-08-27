@@ -23,10 +23,9 @@
     "customizations": {
         "vscode": {
             "settings": {
-                "python.pythonPath": "/usr/local/bin/python",
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
                 "[python]": {
-                    "editor.defaultFormatter": "ms-python.black-formatter",
-                    "black-formatter.path": "/usr/local/bin/black",
+                    "editor.defaultFormatter": "charliermarsh.ruff",
                     "editor.formatOnSave": true,
                     "editor.codeActionsOnSave": {
                         "source.fixAll": true
@@ -44,7 +43,6 @@
             // Add the IDs of extensions you want installed when the container is created.
             "extensions": [
                 "ms-python.python",
-                "ms-python.black-formatter",
                 "yzhang.markdown-all-in-one",
                 "ms-azuretools.vscode-docker",
                 "be5invis.toml",

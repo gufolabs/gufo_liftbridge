@@ -6,64 +6,68 @@
 # ----------------------------------------------------------------------
 
 """
-Python Liftbridge client
+Python Liftbridge client.
 
 Attributes:
     logger: Client logger.
 """
 
 # Python modules
-import logging
-from typing import (
-    Type,
-    Optional,
-    Dict,
-    List,
-    AsyncIterable,
-    Tuple,
-    Iterable,
-)
-from types import TracebackType
-import random
 import asyncio
+import logging
+import random
 import socket
+from types import TracebackType
+from typing import (
+    Any,
+    AsyncIterable,
+    Callable,
+    Dict,
+    Iterable,
+    List,
+    Optional,
+    Tuple,
+    Type,
+)
+
+from grpc import ChannelConnectivity, StatusCode  # type:ignore[import]
 
 # Third-party modules
-from grpc.aio import insecure_channel, AioRpcError  # type:ignore[import]
-from grpc import StatusCode, ChannelConnectivity  # type:ignore[import]
+from grpc.aio import AioRpcError, insecure_channel  # type:ignore[import]
 
-# Gufo Liftbridge modules
-from .api_pb2_grpc import APIStub
 from .api_pb2 import (
+    Ack,
+    CreateStreamRequest,
+    DeleteStreamRequest,
+    FetchCursorRequest,
     FetchMetadataRequest,
     FetchMetadataResponse,
     FetchPartitionMetadataRequest,
-    CreateStreamRequest,
-    DeleteStreamRequest,
     PublishRequest,
-    SubscribeRequest,
-    FetchCursorRequest,
     SetCursorRequest,
-    Ack,
+    SubscribeRequest,
 )
+
+# Gufo Liftbridge modules
+from .api_pb2_grpc import APIStub
 from .compressor import compress, decompress
 from .error import (
-    rpc_error,
-    ErrorNotFound,
     ErrorChannelClosed,
-    ErrorUnavailable,
-    LiftbridgeError,
     ErrorMessageSizeExceeded,
     ErrorNoMetadataLeader,
+    ErrorNotFound,
+    ErrorUnavailable,
+    LiftbridgeError,
+    rpc_error,
 )
 from .types import (
     AckPolicy,
     Broker,
-    PartitionMetadata,
-    StreamMetadata,
-    Metadata,
-    StartPosition,
     Message,
+    Metadata,
+    PartitionMetadata,
+    StartPosition,
+    StreamMetadata,
 )
 from .utils import is_ipv4
 
@@ -72,6 +76,7 @@ logger = logging.getLogger("gufo.liftbridge")
 
 CURSOR_STREAM = "__cursors"
 DEFAULT_MAX_MESSAGE_SIZE = 16 * 1024 * 1024
+BROKER_PARTS = 2
 
 
 class GRPCChannel(object):
@@ -82,15 +87,17 @@ class GRPCChannel(object):
         broker: target address in form "<address>:<port>".
     """
 
-    def __init__(self, broker: str):
+    def __init__(self, broker: str) -> None:
         self.broker = broker
         self.channel = None
         self.stub: Optional[APIStub] = None
 
-    def __getattr__(self, item: str):
+    def __getattr__(self, item: str) -> Callable[..., Any]:
+        """Get wrapped API method."""
         return getattr(self.stub, item)
 
-    async def __aenter__(self):
+    async def __aenter__(self) -> "GRPCChannel":
+        """Context manager enter."""
         await self.connect()
         return self
 
@@ -100,6 +107,7 @@ class GRPCChannel(object):
         exc: Optional[BaseException],
         traceback: Optional[TracebackType],
     ) -> Optional[bool]:
+        """Context management exit."""
         await self.close()
         return None
 
@@ -145,9 +153,7 @@ class GRPCChannel(object):
             return
 
     async def close(self) -> None:
-        """
-        Close channel connection.
-        """
+        """Close channel connection."""
         if not self.channel:
             return
         logger.debug("[%s] Closing channel", self.broker)
@@ -155,7 +161,7 @@ class GRPCChannel(object):
         self.channel = None
         self.stub = None
 
-    async def _wait_for_channel_ready(self):
+    async def _wait_for_channel_ready(self) -> None:
         """
         Wait until channel became ready.
 
@@ -166,9 +172,9 @@ class GRPCChannel(object):
             state = self.channel.get_state(try_to_connect=True)
             if state == ChannelConnectivity.READY:
                 return
-            if (
-                state == ChannelConnectivity.TRANSIENT_FAILURE
-                or state == ChannelConnectivity.SHUTDOWN
+            if state in (
+                ChannelConnectivity.TRANSIENT_FAILURE,
+                ChannelConnectivity.SHUTDOWN,
             ):
                 raise ErrorUnavailable("Unavailable: %s" % state)
             await self.channel.wait_for_state_change(state)
@@ -198,12 +204,14 @@ class LiftbridgeClient(object):
         ValueError: If parameters are incorrect.
     """
 
-    GRPC_RESTARTABLE_CODES = {
-        StatusCode.UNAVAILABLE,
-        StatusCode.FAILED_PRECONDITION,
-        StatusCode.NOT_FOUND,
-        StatusCode.INTERNAL,
-    }
+    GRPC_RESTARTABLE_CODES = frozenset(
+        (
+            StatusCode.UNAVAILABLE,
+            StatusCode.FAILED_PRECONDITION,
+            StatusCode.NOT_FOUND,
+            StatusCode.INTERNAL,
+        )
+    )
 
     def __init__(
         self,
@@ -217,15 +225,16 @@ class LiftbridgeClient(object):
         publish_async_ack_timeout: float = 10.0,
         metadata_leader_timeout: float = 3.0,
         metadata_leader_dev: float = 1.0,
-    ):
+    ) -> None:
         self.broker_seeds = list(brokers)
         if not self.broker_seeds:
-            raise ValueError("Empty broker seeds")
+            msg = "Empty broker seeds"
+            raise ValueError(msg)
         # Check seeds
         for seed in self.broker_seeds:
             if not self._is_broker_addr(seed):
-                raise ValueError(f"Invalid broker seed: {seed}")
-        #
+                msg = f"Invalid broker seed: {seed}"
+                raise ValueError(msg)
         self.max_message_size = max_message_size
         self.enable_http_proxy = enable_http_proxy
         self.compression_method = compression_method
@@ -253,7 +262,7 @@ class LiftbridgeClient(object):
             `True`, if `broker` is valid address, `False` otherwise.
         """
         parts = broker.split(":")
-        if len(parts) != 2:
+        if len(parts) != BROKER_PARTS:
             return False
         # Check port
         try:
@@ -274,14 +283,13 @@ class LiftbridgeClient(object):
         del self.channels[broker]
         self.open_brokers = list(self.channels)
 
-    async def close(self):
-        """
-        Close all open channels.
-        """
+    async def close(self) -> None:
+        """Close all open channels."""
         for broker in list(self.channels):
             await self._close_channel(broker)
 
     async def __aenter__(self) -> "LiftbridgeClient":
+        """Entering context manager."""
         return self
 
     async def __aexit__(
@@ -290,6 +298,7 @@ class LiftbridgeClient(object):
         exc: Optional[BaseException],
         traceback: Optional[TracebackType],
     ) -> Optional[bool]:
+        """Exit from context manager."""
         await self.close()
         return None
 
@@ -313,12 +322,14 @@ class LiftbridgeClient(object):
                 return f"{host}:{parts[1]}"
             except ErrorNotFound:
                 continue
-        raise ErrorNotFound("Cannot resolve any seeds")
+        msg = "Cannot resolve any seeds"
+        raise ErrorNotFound(msg)
 
     async def _get_channel(self, broker: Optional[str] = None) -> GRPCChannel:
         """
-        Get GRPC channel for a broker. Use random broker from seed
-        if the broker is not set
+        Get GRPC channel for a broker.
+
+        Use random broker from seed if the broker is not set.
 
         Args:
             broker: Broker address in "<address>:<port>" format.
@@ -332,7 +343,7 @@ class LiftbridgeClient(object):
         if not broker:
             if self.channels:
                 # Use random existing channel
-                broker = random.choice(self.open_brokers)
+                broker = random.choice(self.open_brokers)  # noqa:S311
             else:
                 broker = await self._get_seed()
         channel = self.channels.get(broker)
@@ -347,7 +358,9 @@ class LiftbridgeClient(object):
         return channel
 
     @staticmethod
-    async def _sleep_on_error(delay: float = 1.0, deviation: float = 0.5):
+    async def _sleep_on_error(
+        delay: float = 1.0, deviation: float = 0.5
+    ) -> None:
         """
         Wait random time on error.
 
@@ -355,9 +368,8 @@ class LiftbridgeClient(object):
             delay: Average delay in seecods.
             deviation: Deviation from delay in seconds.
         """
-        await asyncio.sleep(
-            delay - deviation + 2 * deviation * random.random()
-        )
+        r = random.random()  # noqa:S311
+        await asyncio.sleep(delay - deviation + 2 * deviation * r)
 
     async def _get_leader(self, stream: str, partition: int) -> str:
         """
@@ -431,10 +443,9 @@ class LiftbridgeClient(object):
                 if cache is not None:
                     cache[host] = addrs
             except socket.gaierror as e:
-                raise ErrorNotFound(
-                    f"Cannot resolve broker address: {host}"
-                ) from e
-        return random.choice(addrs)
+                msg = f"Cannot resolve broker address: {host}"
+                raise ErrorNotFound(msg) from e
+        return random.choice(addrs)  # noqa:S311
 
     async def _update_topology(self, r: FetchMetadataResponse) -> None:
         """
@@ -483,17 +494,13 @@ class LiftbridgeClient(object):
             logger.debug("[%s] Closing left broker", broker)
             await self._close_channel(broker)
 
-    async def _refresh_leaders(self):
-        """
-        Refresh cluster partition leaders.
-        """
+    async def _refresh_leaders(self) -> None:
+        """Refresh cluster partition leaders."""
         logger.info("Refresh leaders")
         await self.get_metadata(wait_for_stream=True)
 
-    def _reset_leaders(self):
-        """
-        Clean up cluster partition leaders.
-        """
+    def _reset_leaders(self) -> None:
+        """Clean up cluster partition leaders."""
         self.leaders = {}
 
     async def get_metadata(
@@ -604,25 +611,25 @@ class LiftbridgeClient(object):
         auto_pause_time: int = 0,
         auto_pause_disable_if_subscribers: bool = False,
         wait_for_stream: bool = False,
-    ):
+    ) -> None:
         """
         Create stream. Internal implementation.
 
         Args:
             name: Stream name.
             subject: Optional NATS subject.
-            group:
+            group: ???
             replication_factor: Replication factor, amount of
                 cluster members to replicate each partition.
-            minisr:
+            minisr: Minimum in-service replicas.
             partitions: Number of partition in the stream.
             enable_compact: Enable stream compaction.
-            retention_max_age:
-            retention_max_bytes:
-            segment_max_age:
-            segment_max_bytes:
-            auto_pause_time:
-            auto_pause_disable_if_subscribers:
+            retention_max_age: ???
+            retention_max_bytes: ???
+            segment_max_age: ???
+            segment_max_bytes: ???
+            auto_pause_time: ???
+            auto_pause_disable_if_subscribers: ???
             wait_for_stream: Wait until the stream is really created.
         """
         req = CreateStreamRequest(
@@ -697,14 +704,14 @@ class LiftbridgeClient(object):
         Generate PublishRequest for bulk operations.
 
         Args:
-            value:
-            stream:
-            key:
-            partition:
-            headers:
-            ack_inbox:
-            correlation_id:
-            ack_policy:
+            value: Message body.
+            stream: Stream to publish.
+            key: Optional message key.
+            partition: Partition.
+            headers: Message headers.
+            ack_inbox: Optional inbox to send acknowledge.
+            correlation_id: Opaque id to correlate messages.
+            ack_policy: Acknowledgement policies.
             auto_compress: If `True` compress value if the
                 client's `compression_method` is set
                 and the size of value is beyound `compression_threshold`.
@@ -793,7 +800,7 @@ class LiftbridgeClient(object):
             wait: Wait for all acks if set to `True`.
         """
 
-        async def drain_wait():
+        async def drain_wait() -> AsyncIterable[PublishRequest]:
             nonlocal balance, done
             for req in iter_req:
                 balance += 1
@@ -880,7 +887,7 @@ class LiftbridgeClient(object):
             start_offset: Starting offset, if `start_position` is `OFFSET`
             start_timestamp: Starting timestamp,
                 if `start_position` is `TIMESTAMP`
-            resume:
+            resume: Resume start position.
             cursor_id: Cursor ID to resume, if `start_position` is `RESUME`.
             timeout: Optional timeout in seconds.
             allow_isr: Allow connections to in-state replicas (ISR).
@@ -902,9 +909,8 @@ class LiftbridgeClient(object):
             req.startTimestamp = int(start_timestamp * 1_000_000_000.0)
         elif start_position == StartPosition.RESUME:
             if not cursor_id:
-                raise ValueError(
-                    "cursor_id must be set for StartPosition.RESUME"
-                )
+                msg = "cursor_id must be set for StartPosition.RESUME"
+                raise ValueError(msg)
             logger.debug("Getting stored offset for stream '%s'", stream)
             req.startPosition = StartPosition.OFFSET.value
             logger.debug("Resuming from offset %d", req.startOffset)
@@ -955,16 +961,14 @@ class LiftbridgeClient(object):
         cursor_id: Optional[str] = None,
         to_recover: bool = False,
     ) -> AsyncIterable[Message]:
-        """
-        Internal implementation for subscribe.
-        """
+        """Internal implementation for subscribe."""
         allow_isr = bool(req.readISRReplica)
         with rpc_error():
             broker: Optional[str] = None
             if allow_isr:
                 isrs = self.isrs.get((req.stream, req.partition))
                 if isrs:
-                    broker = random.choice(isrs)
+                    broker = random.choice(isrs)  # noqa: S311
             if not broker:
                 broker = await self._get_leader(req.stream, req.partition)
             async with GRPCChannel(broker) as channel:
@@ -1042,9 +1046,7 @@ class LiftbridgeClient(object):
         await self.get_metadata(stream, wait_for_stream=True)
 
     async def wait_for_cursors(self) -> None:
-        """
-        Wait until cursors become available
-        """
+        """Wait until cursors become available."""
         await self.wait_for_stream(CURSOR_STREAM)
 
     async def get_cursor(

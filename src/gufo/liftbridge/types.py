@@ -1,18 +1,21 @@
 # ----------------------------------------------------------------------
 # Gufo Liftbridge: Data Types
 # ----------------------------------------------------------------------
-# Copyright (C) 2022, Gufo Labs
+# Copyright (C) 2022-25, Gufo Labs
 # See LICENSE.md for details
 # ----------------------------------------------------------------------
+"""Types definitions."""
 
 # Python modules
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import List, Dict
+from typing import Dict, List
 
 # Gufo Liftbridge modules
 from .api_pb2 import (
     AckPolicy as _AckPolicy,
+)
+from .api_pb2 import (
     StartPosition as _StartPosition,
 )
 
@@ -73,6 +76,15 @@ class RetentionPolicy(object):
 
 @dataclass
 class Broker(object):
+    """
+    Broker node metadata.
+
+    Attributes:
+        id: Broker id.
+        host: Broker host.
+        port: Broker port.
+    """
+
     id: str
     host: str
     port: int
@@ -80,6 +92,19 @@ class Broker(object):
 
 @dataclass
 class PartitionMetadata(object):
+    """
+    Partition metadata.
+
+    Attributes:
+        id: Partition id.
+        leader: Leader broker id.
+        replicas: Replica nodes.
+        isr:
+        high_watermark: Highest uncommited offset in partition.
+        newest_offset: Offset for the next record.
+        paused: Partition is paused.
+    """
+
     id: int
     leader: str
     replicas: List[str]
@@ -91,6 +116,15 @@ class PartitionMetadata(object):
 
 @dataclass
 class StreamMetadata(object):
+    """
+    Stream metadata.
+
+    Attributes:
+        name: Stream name.
+        subject: Stream subject.
+        partitions: List of partitions metadata.
+    """
+
     name: str
     subject: str
     partitions: Dict[int, PartitionMetadata]

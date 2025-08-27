@@ -36,7 +36,7 @@ cat /tmp/api_pb2.pyi | sed "s/__slots__ = \[\]/__slots__:List[str] = \[\]/" >> $
 rm /tmp/api_pb2.pyi
 
 # Format code
-black $OUT/api_pb2.py $OUT/api_pb2_grpc.py $OUT/api_pb2.pyi
+ruff format $OUT/api_pb2.py $OUT/api_pb2_grpc.py $OUT/api_pb2.pyi
 
 # Cleanup API repo
 rm -r $API_REPO

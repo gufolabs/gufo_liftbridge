@@ -3,11 +3,12 @@
 *An asynchronous [Python][Python] [Liftbridge][Liftbridge] client*
 
 [![PyPi version](https://img.shields.io/pypi/v/gufo_liftbridge.svg)](https://pypi.python.org/pypi/gufo_liftbridge/)
+![Downloads](https://img.shields.io/pypi/dw/gufo_liftbridge)
 ![Python Versions](https://img.shields.io/pypi/pyversions/gufo_liftbridge)
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 ![Build](https://img.shields.io/github/actions/workflow/status/gufolabs/gufo_liftbridge/py-tests.yml?branch=master)
 ![Sponsors](https://img.shields.io/github/sponsors/gufolabs)
-
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v0.json)](https://github.com/charliermarsh/ruff)
 ---
 
 **Documentation**: [https://docs.gufolabs.com/gufo_liftbridge/](https://docs.gufolabs.com/gufo_liftbridge/)
