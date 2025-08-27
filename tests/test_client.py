@@ -1,76 +1,21 @@
 # ----------------------------------------------------------------------
 # Gufo Liftbridge: gufo.liftbridge.client tests
 # ----------------------------------------------------------------------
-# Copyright (C) 2022, Gufo Labs
+# Copyright (C) 2022-25, Gufo Labs
 # See LICENSE.md for details
 # ----------------------------------------------------------------------
 
 # Python modules
 import asyncio
-import os
-import tempfile
-import subprocess
 
 # Third-party modules
 import pytest
 
 # Gufo Liftbridge modules
 from gufo.liftbridge.client import LiftbridgeClient
-from gufo.liftbridge.types import StartPosition
 from gufo.liftbridge.error import ErrorNotFound
-
-LIFTBRIDGE_BIN_PATH = "/usr/local/bin/liftbridge"
-LIFTBRIDGE_DATA_ROOT = "/tmp/ldata"
-LIFTRIDGE_SERVER_ID = "test"
-BROKER = "127.0.0.1:9292"
-
-DEFAULT_CONFIG = """
-listen: 127.0.0.1:9292
-cursors:
-    stream.auto.pause.time: 0
-    stream.partitions: 1
-"""
-
-
-@pytest.fixture(scope="module")
-def liftbridge():
-    """
-    Run and stop liftbridge process.
-    """
-
-    async def wait_for_leader():
-        async with LiftbridgeClient([BROKER]) as client:
-            await client.get_metadata()
-
-    # Ensure temporary root is exists
-    if not os.path.exists(LIFTBRIDGE_DATA_ROOT):
-        os.makedirs(LIFTBRIDGE_DATA_ROOT)
-    # Generate temporary data directory
-    with tempfile.TemporaryDirectory(
-        prefix="data-", dir=LIFTBRIDGE_DATA_ROOT
-    ) as data_dir:
-        # Write config
-        cfg = os.path.join(data_dir, ".liftbridge.yml")
-        with open(cfg, "w") as f:
-            f.write(DEFAULT_CONFIG)
-        # Launch server
-        proc = subprocess.Popen(
-            [
-                LIFTBRIDGE_BIN_PATH,
-                "-c",
-                cfg,
-                "-d",
-                data_dir,
-                "--embedded-nats",
-                "--raft-bootstrap-seed",
-            ],
-        )
-        # Wait for metadata leader
-        asyncio.run(asyncio.wait_for(wait_for_leader(), 10.0))
-        # Pass control to tests
-        yield None
-        # Stop server
-        proc.kill()
+from gufo.liftbridge.liftbridge import Liftbridge
+from gufo.liftbridge.types import StartPosition
 
 
 def test_empty_seeds():
@@ -93,7 +38,7 @@ def test_seed_resolution_failed():
 
 
 @pytest.mark.parametrize(
-    "v,exp",
+    ("v", "exp"),
     [
         ("127.0.0.1:1000", True),
         ("localhost:1000", True),
@@ -106,7 +51,7 @@ def test_is_broker_addr(v: str, exp: bool):
 
 
 @pytest.mark.parametrize(
-    "seed,resolved", [("127.0.0.1:1000", "127.0.0.1:1000")]
+    ("seed", "resolved"), [("127.0.0.1:1000", "127.0.0.1:1000")]
 )
 def test_get_seed1(seed: str, resolved: str):
     async def inner():
@@ -117,9 +62,9 @@ def test_get_seed1(seed: str, resolved: str):
     assert r == resolved
 
 
-def test_get_empty_metadata(liftbridge):
+def test_get_empty_metadata(liftbridge: Liftbridge):
     async def inner():
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             await client.wait_for_cursors()
             return await client.get_metadata()
 
@@ -131,9 +76,9 @@ def test_get_empty_metadata(liftbridge):
     assert r.brokers[0].host == "127.0.0.1"
 
 
-def test_get_metadata(liftbridge):
+def test_get_metadata(liftbridge: Liftbridge):
     async def inner():
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             await client.create_stream(
                 STREAM, partitions=1, wait_for_stream=True
             )
@@ -148,12 +93,12 @@ def test_get_metadata(liftbridge):
         if m.name == STREAM and len(m.partitions) == 1:
             break
     else:
-        assert False, "No metadata for test stream"
+        pytest.fail("No metadata for test stream")
 
 
-def test_get_partition_metadata(liftbridge):
+def test_get_partition_metadata(liftbridge: Liftbridge):
     async def inner():
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             await client.create_stream(
                 STREAM, partitions=1, wait_for_stream=True
             )
@@ -166,23 +111,23 @@ def test_get_partition_metadata(liftbridge):
     assert r
 
 
-def test_delete_unknown_stream():
+def test_delete_unknown_stream(liftbridge: Liftbridge):
     async def inner():
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             await client.delete_stream("_unknown_stream")
 
     with pytest.raises(ErrorNotFound):
         asyncio.run(asyncio.wait_for(inner(), 20.0))
 
 
-def test_pub_sub():
+def test_pub_sub(liftbridge: Liftbridge):
     async def prepare_stream(
         prep_ready: asyncio.Event,
         pub_ready: asyncio.Event,
         sub_ready: asyncio.Event,
     ):
         print("[prep] Running")
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[prep] Crearing stream")
             await client.create_stream(
                 STREAM, partitions=1, wait_for_stream=True
@@ -198,7 +143,7 @@ def test_pub_sub():
     async def publisher(prep_ready: asyncio.Event, pub_ready: asyncio.Event):
         print("[pub] Running")
         await prep_ready.wait()
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[pub] Starting publishing")
             for i in range(N):
                 print(f"[pub] Publishing #{i}")
@@ -216,7 +161,7 @@ def test_pub_sub():
         print("[sub] Running")
         await prep_ready.wait()
         expected = 0
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[sub] Subscribing")
             async for msg in client.subscribe(
                 STREAM, partition=0, start_position=StartPosition.EARLIEST
@@ -250,14 +195,14 @@ def test_pub_sub():
     asyncio.run(asyncio.wait_for(run(), 10.0))
 
 
-def test_pub_sub_offset():
+def test_pub_sub_offset(liftbridge: Liftbridge):
     async def prepare_stream(
         prep_ready: asyncio.Event,
         pub_ready: asyncio.Event,
         sub_ready: asyncio.Event,
     ):
         print("[prep] Running")
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[prep] Crearing stream")
             await client.create_stream(
                 STREAM, partitions=1, wait_for_stream=True
@@ -273,7 +218,7 @@ def test_pub_sub_offset():
     async def publisher(prep_ready: asyncio.Event, pub_ready: asyncio.Event):
         print("[pub] Running")
         await prep_ready.wait()
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[pub] Starting publishing")
             for i in range(N):
                 print(f"[pub] Publishing #{i}")
@@ -291,7 +236,7 @@ def test_pub_sub_offset():
         print("[sub] Running")
         await pub_ready.wait()
         expected = 5
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[sub] Subscribing")
             async for msg in client.subscribe(
                 STREAM, partition=0, start_offset=5
@@ -325,14 +270,14 @@ def test_pub_sub_offset():
     asyncio.run(asyncio.wait_for(run(), 10.0))
 
 
-def test_pub_sub_resume():
+def test_pub_sub_resume(liftbridge: Liftbridge):
     async def prepare_stream(
         prep_ready: asyncio.Event,
         pub_ready: asyncio.Event,
         sub_ready: asyncio.Event,
     ):
         print("[prep] Running")
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[prep] Crearing stream")
             await client.create_stream(
                 STREAM, partitions=1, wait_for_stream=True
@@ -351,7 +296,7 @@ def test_pub_sub_resume():
     ):
         print("[pub] Running")
         await prep_ready.wait()
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[pub] Starting publishing")
             for i in range(N):
                 print(f"[pub] Publishing #{i}")
@@ -376,7 +321,7 @@ def test_pub_sub_resume():
         print("[sub] Running")
         await pub_ready.wait()
         expected = 5
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[sub] Subscribing")
             async for msg in client.subscribe(
                 STREAM,
@@ -414,14 +359,14 @@ def test_pub_sub_resume():
     asyncio.run(asyncio.wait_for(run(), 10.0))
 
 
-def test_bulk_pub_sub():
+def test_bulk_pub_sub(liftbridge: Liftbridge):
     async def prepare_stream(
         prep_ready: asyncio.Event,
         pub_ready: asyncio.Event,
         sub_ready: asyncio.Event,
     ):
         print("[prep] Running")
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[prep] Crearing stream")
             await client.create_stream(
                 STREAM, partitions=1, wait_for_stream=True
@@ -435,7 +380,9 @@ def test_bulk_pub_sub():
             print("[prep] Done")
 
     def pub_iter():
-        client = LiftbridgeClient([BROKER], compression_method="lzma")
+        client = LiftbridgeClient(
+            [liftbridge.broker], compression_method="lzma"
+        )
         for i in range(N):
             yield client.get_publish_request(
                 f"msg{i}".encode("utf-8"),
@@ -453,7 +400,7 @@ def test_bulk_pub_sub():
     ):
         print("[pub] Running")
         await prep_ready.wait()
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[pub] Starting publishing")
             async for _ in client.publish_bulk(pub_iter()):
                 pass
@@ -468,7 +415,7 @@ def test_bulk_pub_sub():
         print("[sub] Running")
         await prep_ready.wait()
         expected = 0
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[sub] Subscribing")
             async for msg in client.subscribe(
                 STREAM, partition=0, start_position=StartPosition.EARLIEST
@@ -502,12 +449,12 @@ def test_bulk_pub_sub():
     asyncio.run(asyncio.wait_for(run(), 10.0))
 
 
-def test_cursor():
+def test_cursor(liftbridge: Liftbridge):
     async def prepare_stream(
         prep_ready: asyncio.Event, cur_ready: asyncio.Event
     ):
         print("[prep] Running")
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             print("[prep] Crearing stream")
             await client.create_stream(
                 STREAM, partitions=1, wait_for_stream=True
@@ -523,13 +470,12 @@ def test_cursor():
     async def cursors(prep_ready: asyncio.Event, cur_ready: asyncio.Event):
         print("[cur] Running")
         await prep_ready.wait()
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             # Empty cursor
             print("[cur] Getting empty cursor")
             c = await client.get_cursor(STREAM, partition=0, cursor_id=CURSOR)
             print(f"[cur] Empty cursor is {c}")
             assert c == -1
-            #
             for i in range(N):
                 print(f"[cur] Setting cursor to {i}")
                 await client.set_cursor(
@@ -558,10 +504,10 @@ def test_cursor():
     asyncio.run(asyncio.wait_for(run(), 10.0))
 
 
-@pytest.mark.parametrize("name,exp", [("localhost", "127.0.0.1")])
-def test_resolve(name: str, exp: str, liftbridge):
+@pytest.mark.parametrize(("name", "exp"), [("localhost", "127.0.0.1")])
+def test_resolve(name: str, exp: str, liftbridge: Liftbridge):
     async def inner():
-        async with LiftbridgeClient([BROKER]) as client:
+        async with LiftbridgeClient([liftbridge.broker]) as client:
             return await client._resolve(name, cache)
 
     cache = {}

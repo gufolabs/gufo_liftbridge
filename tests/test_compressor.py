@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # Gufo Liftbridge: gufo.liftbridge.compressor tests
 # ----------------------------------------------------------------------
-# Copyright (C) 2022, Gufo Labs
+# Copyright (C) 2022-25, Gufo Labs
 # See LICENSE.md for details
 # ----------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ def test_get_handlers_lzma_fn():
 @pytest.mark.parametrize("method", ["zlib", "lzma"])
 def test_get_handlers_cycle(method: str):
     comp, decomp = _get_handlers(method)
-    assert not (comp is decomp)
+    assert comp is not decomp
     sample = b"a" * 1024
     # Compress
     cdata = comp(sample)
@@ -53,7 +53,7 @@ def test_get_handlers_cycle(method: str):
 @pytest.mark.parametrize("method", ["zlib", "lzma"])
 def test_get_cycle(method: str):
     sample = b"a" * 1024
-    for i in range(2):
+    for _ in range(2):
         # Compress
         cdata = compress(sample, method)
         # Compressed value must differ

@@ -16,6 +16,7 @@ To see unreleased changes, please see the [CHANGELOG on the master branch](https
 
 * docs: Fancy front page
 * docs: Supported standards page
+* Liftrbridge context manager for tests
 
 ### Infrastructure
 
@@ -24,12 +25,15 @@ To see unreleased changes, please see the [CHANGELOG on the master branch](https
 * Move dependencies to pyproject.toml
 * grpcio 1.74.0
 * protobuf 6.32
-* Use `actions/checkout@v3`
-* Use `actions/cache@v3`
+* Use `actions/checkout@v4`
+* Use `actions/cache@v4`
 * Project structure tests
 * CI workflows tests
 * devcontainer: `settings` are moved to `customizations.vscode.settings`
 * use pypa/gh-action-pypi-publish@release/v1
+* use actions/checkout@v4
+* use actions/cache@v4
+* use actions/setup-python@v5
 
 ## 0.1.0 - 2022-12-08
 

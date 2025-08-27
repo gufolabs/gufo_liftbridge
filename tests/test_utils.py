@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # Gufo Liftbridge: gufo.liftbridge.utils tests
 # ----------------------------------------------------------------------
-# Copyright (C) 2022, Gufo Labs
+# Copyright (C) 2022-25, Gufo Labs
 # See LICENSE.md for details
 # ----------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ from gufo.liftbridge.utils import is_ipv4
 
 
 @pytest.mark.parametrize(
-    "v,exp",
+    ("v", "exp"),
     [
         ("192.168.0.1", True),
         ("192.168.0", False),

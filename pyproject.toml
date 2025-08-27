@@ -102,6 +102,7 @@ max-complexity = 10
   "ANN101", # Missing type annotation for `{name}` in method
   "ANN201", # Missing return type annotation for public function {name}
   "ANN202", # Missing return type annotation for private function `{name}`
+  "B011", # Do not `{x}` (`python -O` removes these calls), raise `AssertionError()
   "BLE001", # Do not catch blind exception: `Exception`
   "D100", # Missing docstring in public module
   "D101", # Missing docstring in public class
