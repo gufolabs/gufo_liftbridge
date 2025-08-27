@@ -19,6 +19,8 @@ To see unreleased changes, please see the [CHANGELOG on the master branch](https
 
 ### Infrastructure
 
+* grpcio 1.74.0
+* protobuf 6.32
 * Use `actions/checkout@v3`
 * Use `actions/cache@v3`
 * Project structure tests
