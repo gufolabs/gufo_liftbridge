@@ -1,3 +1,0 @@
-grpcio>=1.74.0
-types-protobuf>=6.30
-protobuf>=6.32

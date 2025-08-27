@@ -19,6 +19,7 @@ To see unreleased changes, please see the [CHANGELOG on the master branch](https
 
 ### Infrastructure
 
+* Move dependencies to pyproject.toml
 * grpcio 1.74.0
 * protobuf 6.32
 * Use `actions/checkout@v3`

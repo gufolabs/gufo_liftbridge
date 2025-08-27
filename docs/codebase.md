@@ -11,14 +11,6 @@ The code base of the project has following structure:
     * `workflows/` - [GitHub Actions Workflows][GitHub Workflows] settings.
       Used to run tests and build the documentation.
 
-* `.requirements/` - Python dependencies for development environment.
-
-    * `docs.txt` - [Mkdocs Material][Mkdocs Material] dependencies.
-    * `ipython.txt` - [IPython] dependencies.
-    * `lint.txt` - [Black][Black], [Flake8][Flake8], and [Mypy][Mypy] dependencies.
-    * `requirements.txt` - Module's own dependencies.
-    * `test.txt` - [Pytest][Pytest] dependencies.
-
 * `docs/` - [Mkdocs][Mkdocs] documentation.
 * `examples/` - Project's examples.
 * `src/` - Project's source code.
