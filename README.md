@@ -56,10 +56,11 @@ async def subscribe():
             print(f"{msg.offset}: {msg.value}")
 ```
 
-## Virtues
+## Features
 
 * Clean async API.
 * High-performance.
+* Built with security in mind.
 * Full Python typing support.
 * Editor completion.
 * Well-tested, battle-proven code.
@@ -81,7 +82,7 @@ can benefit from [Gufo Stack][Gufo Stack] too. So we believe that our effort wil
 the other network management products better.
 
 [Gufo Labs]: https://gufolabs.com/
-[Gufo Stack]: https://gufolabs.com/products/gufo-stack/
+[Gufo Stack]: https://docs.gufolabs.com/
 [NOC]: https://getnoc.com/
 [Python]: https://python.org/
 [Liftbridge]: https://liftbridge.io/
