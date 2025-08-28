@@ -30,9 +30,9 @@ class AckPolicy(IntEnum):
         NONE: Do not wait for an acknowledgment.
     """
 
-    LEADER = _AckPolicy.LEADER  # type:ignore[attr-defined]
-    ALL = _AckPolicy.ALL  # type:ignore[attr-defined]
-    NONE = _AckPolicy.NONE  # type:ignore[attr-defined]
+    LEADER = _AckPolicy.LEADER
+    ALL = _AckPolicy.ALL
+    NONE = _AckPolicy.NONE
 
 
 class StartPosition(IntEnum):
@@ -48,12 +48,12 @@ class StartPosition(IntEnum):
         RESUME: Non-standard. Resume from next to last processed.
     """
 
-    NEW_ONLY = _StartPosition.NEW_ONLY  # type:ignore[attr-defined]
-    OFFSET = _StartPosition.OFFSET  # type:ignore[attr-defined]
-    EARLIEST = _StartPosition.EARLIEST  # type:ignore[attr-defined]
-    LATEST = _StartPosition.LATEST  # type:ignore[attr-defined]
-    TIMESTAMP = _StartPosition.TIMESTAMP  # type:ignore[attr-defined]
-    RESUME = 9999  # type:ignore[attr-defined]
+    NEW_ONLY = _StartPosition.NEW_ONLY
+    OFFSET = _StartPosition.OFFSET
+    EARLIEST = _StartPosition.EARLIEST
+    LATEST = _StartPosition.LATEST
+    TIMESTAMP = _StartPosition.TIMESTAMP
+    RESUME = 9999
 
 
 @dataclass(frozen=True)

@@ -11,8 +11,8 @@ from types import TracebackType
 from typing import Dict, Type
 
 # Third-party modules
-from grpc import StatusCode  # type:ignore[import]
-from grpc.experimental.aio import AioRpcError  # type:ignore[import]
+from grpc import StatusCode  # type:ignore[import-untyped]
+from grpc.experimental.aio import AioRpcError  # type:ignore[import-untyped]
 
 
 class LiftbridgeError(Exception):

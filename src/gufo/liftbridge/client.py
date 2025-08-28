@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # Python Liftbridge client
 # ----------------------------------------------------------------------
-# Copyright (C) 2022, Gufo Labs
+# Copyright (C) 2022-25, Gufo Labs
 # See LICENSE.md for details
 # ----------------------------------------------------------------------
 
@@ -30,10 +30,12 @@ from typing import (
     Type,
 )
 
-from grpc import ChannelConnectivity, StatusCode  # type:ignore[import]
-
 # Third-party modules
-from grpc.aio import AioRpcError, insecure_channel  # type:ignore[import]
+from grpc import ChannelConnectivity, StatusCode  # type:ignore[import-untyped]
+from grpc.aio import (  # type:ignore[import-untyped]
+    AioRpcError,
+    insecure_channel,
+)
 
 from .api_pb2 import (
     Ack,
