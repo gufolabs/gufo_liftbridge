@@ -198,6 +198,7 @@ version = {attr = "gufo.liftbridge.__version__"}
 [tool.mypy]
 exclude = [
   'api_pb2\.py$',
+  'api_pb2\.pyi$',
   'api_pb2_grpc\.py$',
 ]
 explicit_package_bases = true

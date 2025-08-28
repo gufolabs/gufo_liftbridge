@@ -43,7 +43,7 @@ class ErrorNoMetadataLeader(LiftbridgeError):
     """No known metadata leader."""
 
 
-RPC_CODE_TO_ERR: Dict[StatusCode, LiftbridgeError] = {
+RPC_CODE_TO_ERR: Dict[StatusCode, Type[LiftbridgeError]] = {
     StatusCode.ALREADY_EXISTS: ErrorAlreadyExists,
     StatusCode.NOT_FOUND: ErrorNotFound,
     StatusCode.UNAVAILABLE: ErrorUnavailable,
@@ -67,7 +67,7 @@ class rpc_error(object):
         exc_tb: TracebackType,
     ) -> None:
         """Exit context handler."""
-        if exc_type and issubclass(exc_type, AioRpcError):
+        if exc_val and isinstance(exc_val, AioRpcError):
             code = exc_val.code()
             details = exc_val.details()
             if is_no_metada_leader(exc_val):
@@ -81,5 +81,7 @@ def is_no_metada_leader(exc: AioRpcError) -> bool:
     code = exc.code()
     details = exc.details()
     return (
-        code == StatusCode.INTERNAL and details == "no known metadata leader"
+        code == StatusCode.INTERNAL
+        and details is not None
+        and details == "no known metadata leader"
     )

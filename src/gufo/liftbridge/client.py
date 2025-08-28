@@ -94,7 +94,7 @@ class GRPCChannel(object):
 
     def __getattr__(self, item: str) -> Callable[..., Any]:
         """Get wrapped API method."""
-        return getattr(self.stub, item)
+        return getattr(self.stub, item)  # type: ignore[no-any-return]
 
     async def __aenter__(self) -> "GRPCChannel":
         """Context manager enter."""
@@ -149,7 +149,7 @@ class GRPCChannel(object):
                 await asyncio.sleep(1)
                 continue
             logger.debug("[%s] Channel is ready", self.broker)
-            self.stub = APIStub(self.channel)
+            self.stub = APIStub(self.channel)  # type:ignore[no-untyped-call]
             return
 
     async def close(self) -> None:
@@ -167,7 +167,11 @@ class GRPCChannel(object):
 
         Raises:
             ErrorUnavailable: if broker is not available.
+            RuntimeError: If channel is not set.
         """
+        if not self.channel:
+            msg = "channel must be set"
+            raise RuntimeError(msg)
         while True:
             state = self.channel.get_state(try_to_connect=True)
             if state == ChannelConnectivity.READY:
@@ -801,7 +805,7 @@ class LiftbridgeClient(object):
         """
 
         async def drain_wait() -> AsyncIterable[PublishRequest]:
-            nonlocal balance, done
+            nonlocal balance, done  # type: ignore[misc]
             for req in iter_req:
                 balance += 1
                 yield req
@@ -922,14 +926,14 @@ class LiftbridgeClient(object):
         last_offset: Optional[int] = None
         while True:
             try:
-                async for msg in self._subscribe(
+                async for message in self._subscribe(
                     req,
                     restore_position=to_restore_position,
                     cursor_id=cursor_id,
                     to_recover=to_recover,
                 ):
-                    yield msg
-                    last_offset = msg.offset
+                    yield message
+                    last_offset = message.offset
             except ErrorUnavailable as e:
                 logger.error(
                     "Subscriber looses connection to partition node: %s", e
